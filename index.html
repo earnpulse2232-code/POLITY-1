@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="theme-color" content="#f8fafc">
+    <title>Indian Polity - NTPC GK PYQ Test 01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg-main: #f8fafc; --bg-card: #ffffff; --primary: #2563eb; --primary-hover: #1d4ed8;
+            --primary-light: #eff6ff; --text-dark: #0f172a; --text-muted: #64748b; --border-color: #e2e8f0;
+            --green: #10b981; --green-light: #ecfdf5; --red: #ef4444; --red-light: #fef2f2;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06); --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-main); color: var(--text-dark); min-height: 100dvh; font-size: 15px; line-height: 1.5; overflow-x: hidden; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        .hidden { display: none !important; }
+        .start-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+        .start-card { width: 100%; max-width: 440px; background: var(--bg-card); border-radius: 24px; padding: 36px 28px; box-shadow: var(--shadow-lg); text-align: center; border: 1px solid var(--border-color); }
+        .brand-icon { width: 60px; height: 60px; background: var(--primary-light); color: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 16px; }
+        .start-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .start-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+        .mode-btn { display: flex; align-items: center; gap: 16px; width: 100%; padding: 16px; background: #fff; border: 1.5px solid var(--border-color); border-radius: 16px; text-align: left; margin-bottom: 12px; transition: all 0.2s ease; }
+        .mode-btn:hover { border-color: var(--primary); background: var(--primary-light); transform: translateY(-2px); }
+        .mode-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+        .mode-icon.quiz { background: #dbeafe; color: #2563eb; }
+        .mode-icon.test { background: #d1fae5; color: #059669; }
+        .mode-name { font-size: 15px; font-weight: 700; margin-bottom: 2px; }
+        .mode-info-txt { font-size: 12px; color: var(--text-muted); }
+        .quiz-app { height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+        .quiz-header { flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--border-color); padding: 12px 18px; }
+        .quiz-header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .hdr-brand { font-weight: 700; font-size: 15px; }
+        .hdr-timer { padding: 6px 14px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 20px; font-family: monospace; font-weight: 700; color: var(--primary); }
+        .hdr-btn { width: 38px; height: 38px; border-radius: 10px; background: #fff; border: 1px solid var(--border-color); display: flex; align-items: center; justify-content: center; }
+        .quiz-main { flex: 1; overflow-y: auto; max-width: 900px; width: 100%; margin: 0 auto; padding: 24px 16px; }
+        .q-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 20px; padding: 24px; box-shadow: var(--shadow-sm); }
+        .q-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .q-num-badge { padding: 5px 12px; background: var(--primary-light); color: var(--primary); border-radius: 20px; font-size: 12px; font-weight: 700; }
+        .lang-btn { padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border-color); font-size: 12px; font-weight: 600; background: #fff; display: inline-flex; align-items: center; gap: 6px; }
+        .q-text { font-size: 16px; font-weight: 600; line-height: 1.6; margin-bottom: 22px; white-space: pre-line; }
+        .opts { display: flex; flex-direction: column; gap: 11px; }
+        .opt { display: flex; align-items: center; gap: 14px; padding: 14px 18px; background: #fff; border: 1.5px solid var(--border-color); border-radius: 14px; cursor: pointer; transition: all 0.15s ease; }
+        .opt:hover:not(.locked) { border-color: var(--primary); background: #f8fafc; }
+        .opt.selected { border-color: var(--primary); background: var(--primary-light); }
+        .opt.correct { border-color: var(--green); background: var(--green-light); }
+        .opt.wrong { border-color: var(--red); background: var(--red-light); }
+        .opt.locked { cursor: default; }
+        .opt-letter { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border-color); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--text-muted); flex-shrink: 0; }
+        .opt.selected .opt-letter { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .opt.correct .opt-letter { background: var(--green); color: #fff; border-color: var(--green); }
+        .opt.wrong .opt-letter { background: var(--red); color: #fff; border-color: var(--red); }
+        .opt-text { flex: 1; font-weight: 600; }
+        .opt-tag { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+        .opt.correct .opt-tag { background: var(--green); color: #fff; }
+        .opt.wrong .opt-tag { background: var(--red); color: #fff; }
+        .sol-box { margin-top: 20px; padding: 16px; background: #f8fafc; border-left: 4px solid var(--primary); border-radius: 12px; }
+        .sol-head { font-size: 12px; font-weight: 700; text-transform: uppercase; color: var(--primary); margin-bottom: 8px; }
+        .quiz-nav { flex-shrink: 0; background: #fff; border-top: 1px solid var(--border-color); padding: 12px 18px; }
+        .quiz-nav-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+        .nav-btn { display: flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 12px; font-size: 14px; font-weight: 600; }
+        .nav-btn.prev { background: #fff; border: 1px solid var(--border-color); }
+        .nav-btn.prev:disabled { opacity: 0.4; cursor: not-allowed; }
+        .nav-btn.submit { background: var(--green-light); color: #065f46; border: 1px solid #a7f3d0; }
+        .nav-btn.next { background: var(--primary); color: #fff; }
+        .palette-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 150; display: none; }
+        .palette-overlay.open { display: block; }
+        .palette-drawer { position: fixed; top: 0; left: 0; bottom: 0; width: min(340px, 85vw); background: #fff; z-index: 160; display: flex; flex-direction: column; transform: translateX(-100%); transition: transform 0.25s; }
+        .palette-drawer.open { transform: translateX(0); }
+        .pal-head { padding: 18px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
+        .pal-grid { flex: 1; overflow-y: auto; padding: 16px; display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; align-content: start; }
+        .pal-btn { aspect-ratio: 1; border-radius: 10px; border: 1px solid var(--border-color); background: #f8fafc; font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+        .pal-btn.answered { background: var(--green); color: #fff; border-color: var(--green); }
+        .pal-btn.current { outline: 2px solid var(--primary); outline-offset: 2px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 170; display: none; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.open { display: flex; }
+        .modal-box { width: 100%; max-width: 420px; background: #fff; border-radius: 20px; padding: 28px; text-align: center; }
+        .modal-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0 22px; }
+        .modal-stat { background: #f8fafc; border-radius: 12px; padding: 14px; border: 1px solid var(--border-color); }
+        .modal-stat-num { font-size: 24px; font-weight: 800; }
+        .modal-btn { width: 100%; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+        .modal-btn.confirm { background: var(--primary); color: #fff; }
+        .modal-btn.cancel { background: #f1f5f9; }
+        .results-screen { position: fixed; inset: 0; background: var(--bg-main); z-index: 180; display: none; overflow-y: auto; padding: 30px 16px 60px; }
+        .results-screen.open { display: block; }
+        .results-box { max-width: 600px; margin: 0 auto; text-align: center; }
+        .res-score-card { background: #0f172a; color: #fff; border-radius: 20px; padding: 28px; margin: 20px 0; }
+        .res-score-val { font-size: 54px; font-weight: 800; }
+        .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+        .res-item { background: #fff; border-radius: 14px; padding: 16px; border: 1px solid var(--border-color); }
+        .res-item-val { font-size: 22px; font-weight: 700; }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-80px); background: #0f172a; color: #fff; padding: 10px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; z-index: 300; opacity: 0; transition: all 0.25s; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="start-screen" id="startScreen">
+        <div class="start-card">
+            <div class="brand-icon"><i class="fas fa-landmark"></i></div>
+            <h1 class="start-title">NTPC GK PYQ Test 01</h1>
+            <p class="start-desc">Indian Polity - Fundamental Rights, Preamble & Constitutional Articles</p>
+            <button class="mode-btn" onclick="startApp('quiz')">
+                <div class="mode-icon quiz"><i class="fas fa-bolt"></i></div>
+                <div><div class="mode-name">Practice Mode</div><div class="mode-info-txt">Instant correct/wrong answers and detailed explanations.</div></div>
+            </button>
+            <button class="mode-btn" onclick="startApp('test')">
+                <div class="mode-icon test"><i class="fas fa-clock"></i></div>
+                <div><div class="mode-name">Exam Mode</div><div class="mode-info-txt">Timed mock test with review and final scorecard.</div></div>
+            </button>
+        </div>
+    </div>
+
+    <div class="quiz-app hidden" id="quizApp">
+        <header class="quiz-header">
+            <div class="quiz-header-inner">
+                <button class="hdr-btn" onclick="openPalette()"><i class="fas fa-th-large"></i></button>
+                <div class="hdr-brand">NTPC GK PYQ Test 01</div>
+                <div class="hdr-timer"><i class="fas fa-stopwatch"></i> <span id="timerText">00:00</span></div>
+            </div>
+        </header>
+
+        <main class="quiz-main" id="quizMain"></main>
+
+        <nav class="quiz-nav" id="quizNav">
+            <div class="quiz-nav-inner">
+                <button class="nav-btn prev" id="prevBtn" onclick="prevQuestion()"><i class="fas fa-arrow-left"></i> Previous</button>
+                <button class="nav-btn submit" onclick="openSubmitModal()"><i class="fas fa-paper-plane"></i> Submit</button>
+                <button class="nav-btn next" id="nextBtn" onclick="nextQuestion()"><span id="nextLabel">Next</span> <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="palette-overlay" id="paletteOverlay" onclick="closePalette()"></div>
+    <aside class="palette-drawer" id="paletteDrawer">
+        <div class="pal-head"><span>Questions</span><button onclick="closePalette()"><i class="fas fa-times"></i></button></div>
+        <div class="pal-grid" id="paletteGrid"></div>
+    </aside>
+
+    <div class="modal-overlay" id="submitModal">
+        <div class="modal-box">
+            <h3>Submit Test?</h3>
+            <div class="modal-stats-grid">
+                <div class="modal-stat"><div class="modal-stat-num" id="modalAttempted" style="color:var(--green)">0</div><div>Attempted</div></div>
+                <div class="modal-stat"><div class="modal-stat-num" id="modalUnattempted" style="color:var(--text-muted)">0</div><div>Unattempted</div></div>
+            </div>
+            <button class="modal-btn confirm" onclick="confirmSubmit()">Yes, Finish</button>
+            <button class="modal-btn cancel" onclick="closeSubmitModal()">Resume</button>
+        </div>
+    </div>
+
+    <div class="results-screen" id="resultsScreen"><div class="results-box" id="resultsInner"></div></div>
+    <div class="toast" id="toast"><span id="toastText"></span></div>
+
+    <script>
+        const QUESTIONS = [
+            {
+                e: "Which Article allows constitutional remedies for enforcement of Fundamental Rights by courts?",
+                h: "न्यायालयों द्वारा मौलिक अधिकारों के प्रवर्तन के लिए संवैधानिक उपचार की अनुमति कौन सा अनुच्छेद देता है?",
+                oEn: ["Article 226", "Article 300", "Article 32", "Article 44"],
+                oHi: ["अनुच्छेद 226", "अनुच्छेद 300", "अनुच्छेद 32", "अनुच्छेद 44"],
+                a: 2,
+                sE: "Article 32 confers the Right to Constitutional Remedies, empowering citizens to move the Supreme Court directly for the enforcement of Fundamental Rights.",
+                sH: "अनुच्छेद 32 संवैधानिक उपचारों का अधिकार प्रदान करता है, जिसके तहत मौलिक अधिकारों के प्रवर्तन के लिए उच्चतम न्यायालय जाने का अधिकार है।"
+            },
+            {
+                e: "What major change was made to the Right to Property by the 44th Amendment Act (1978)?",
+                h: "44वें संशोधन अधिनियम (1978) द्वारा संपत्ति के अधिकार में क्या बड़ा बदलाव किया गया था?",
+                oEn: ["It was removed from Fundamental Rights", "It was elevated to a Directive Principle", "It was protected under Article 21", "It was given more enforcement power"],
+                oHi: ["इसे मौलिक अधिकारों से हटा दिया गया था", "इसे नीति निर्देशक तत्व बना दिया गया", "इसे अनुच्छेद 21 के तहत संरक्षित किया गया", "इसे अधिक प्रवर्तन शक्ति दी गई"],
+                a: 0,
+                sE: "The 44th Amendment Act, 1978 deleted the Right to Property from the list of Fundamental Rights and made it a legal right under Article 300A in Part XII.",
+                sH: "44वें संविधान संशोधन 1978 द्वारा संपत्ति के अधिकार को मौलिक अधिकारों की सूची से हटाकर अनुच्छेद 300A के तहत विधिक अधिकार बना दिया गया।"
+            },
+            {
+                e: "According to the Constitution of India, freedom of the press is implicitly protected as part of which specific Article guaranteeing freedom of speech and expression?",
+                h: "भारत के संविधान के अनुसार, प्रेस की स्वतंत्रता वाक और अभिव्यक्ति की स्वतंत्रता की गारंटी देने वाले किस विशिष्ट अनुच्छेद के तहत अंतर्निहित है?",
+                oEn: ["Article 32", "Article 19(1)(a)", "Article 22", "Article 21"],
+                oHi: ["अनुच्छेद 32", "अनुच्छेद 19(1)(a)", "अनुच्छेद 22", "अनुच्छेद 21"],
+                a: 1,
+                sE: "Freedom of the press is implicitly guaranteed under Article 19(1)(a) as part of the broader right to freedom of speech and expression.",
+                sH: "प्रेस की स्वतंत्रता संविधान के अनुच्छेद 19(1)(a) में वर्णित वाक् एवं अभिव्यक्ति की स्वतंत्रता में अंतर्निहित है।"
+            },
+            {
+                e: "What does Article 13 of the Indian Constitution primarily deal with?",
+                h: "भारतीय संविधान का अनुच्छेद 13 मुख्य रूप से किससे संबंधित है?",
+                oEn: ["Right to Equality", "Judicial Review", "Reservation Policy", "Freedom of Speech"],
+                oHi: ["समानता का अधिकार", "न्यायिक समीक्षा (Judicial Review)", "आरक्षण नीति", "वाक् स्वतंत्रता"],
+                a: 1,
+                sE: "Article 13 declares all laws inconsistent with or in derogation of Fundamental Rights as void, providing the foundational basis for Judicial Review.",
+                sH: "अनुच्छेद 13 मौलिक अधिकारों से असंगत या उनका अल्पीकरण करने वाली विधियों को शून्य घोषित करता है, जो न्यायिक समीक्षा का मुख्य आधार है।"
+            },
+            {
+                e: "Which Article prevents the state from making laws inconsistent with Fundamental Rights, forming the base of judicial review?",
+                h: "कौन सा अनुच्छेद राज्य को मौलिक अधिकारों से असंगत कानून बनाने से रोकता है और न्यायिक समीक्षा का आधार बनता है?",
+                oEn: ["Article 13", "Article 17", "Article 9", "Article 5"],
+                oHi: ["अनुच्छेद 13", "अनुच्छेद 17", "अनुच्छेद 9", "अनुच्छेद 5"],
+                a: 0,
+                sE: "Article 13(2) expressly prohibits the State from making any law that takes away or abridges fundamental rights.",
+                sH: "अनुच्छेद 13(2) राज्य को ऐसा कोई भी कानून बनाने से रोकता है जो मौलिक अधिकारों को छीनता या कम करता हो।"
+            },
+            {
+                e: "Which four objectives of the Constitution are explicitly mentioned in the Preamble of India?",
+                h: "भारतीय संविधान की प्रस्तावना में संविधान के कौन से चार उद्देश्य स्पष्ट रूप से उल्लिखित हैं?",
+                oEn: ["Parliament, President, Judiciary, Election", "Rights, Duties, Laws, Governance", "Justice, Liberty, Equality, Fraternity", "Sovereign, Republic, Secular, Monarchy"],
+                oHi: ["संसद, राष्ट्रपति, न्यायपालिका, चुनाव", "अधिकार, कर्तव्य, कानून, शासन", "न्याय, स्वतंत्रता, समता, बंधुता (Justice, Liberty, Equality, Fraternity)", "संप्रभु, गणराज्य, धर्मनिरपेक्ष, राजशाही"],
+                a: 2,
+                sE: "The four core objectives stated in the Preamble are: Justice, Liberty, Equality, and Fraternity.",
+                sH: "प्रस्तावना में घोषित चार मुख्य उद्देश्य हैं: न्याय, स्वतंत्रता, समता और बंधुता।"
+            },
+            {
+                e: "Article 371A of the Constitution of India accords special status to Nagaland. This represents which type of federalism?",
+                h: "संविधान का अनुच्छेद 371A नागालैंड को विशेष दर्जा प्रदान करता है। यह किस प्रकार के संघवाद को दर्शाता है?",
+                oEn: ["Competitive federalism", "Asymmetric federalism", "Centralised federalism", "Bargaining federalism"],
+                oHi: ["प्रतिस्पर्धी संघवाद", "असममित संघवाद (Asymmetric federalism)", "केंद्रीकृत संघवाद", "सौदाकारी संघवाद"],
+                a: 1,
+                sE: "Special provisions granted to specific states under Articles 371 to 371J represent asymmetric federalism in India.",
+                sH: "विभिन्न राज्यों को उनकी विशेष परिस्थितियों के अनुसार दिए गए विशेष प्रावधान असममित संघवाद (Asymmetric Federalism) का उदाहरण हैं।"
+            },
+            {
+                e: "The Twenty-Ninth Amendment Act of 1972 included which of the following in the Ninth Schedule?",
+                h: "1972 के 29वें संशोधन अधिनियम द्वारा 9वीं अनुसूची में किसे शामिल किया गया था?",
+                oEn: ["Reservation in promotions", "Two Kerala Acts on land reforms", "Environmental protection laws", "Special provisions for Mizoram"],
+                oHi: ["पदोन्नति में आरक्षण", "भूमि सुधार पर दो केरल अधिनियम", "पर्यावरण संरक्षण कानून", "मिजोरम के लिए विशेष प्रावधान"],
+                a: 1,
+                sE: "The 29th Constitutional Amendment Act, 1972 inserted two Kerala Land Reforms Amendment Acts into the Ninth Schedule.",
+                sH: "29वें संविधान संशोधन अधिनियम, 1972 ने केरल के दो भूमि सुधार अधिनियमों को नौवीं अनुसूची में शामिल किया था।"
+            },
+            {
+                e: "Which Article gives religious denominations the authority to manage their own religious affairs?",
+                h: "कौन सा अनुच्छेद धार्मिक संप्रदायों को अपने धार्मिक मामलों के प्रबंधन का अधिकार देता है?",
+                oEn: ["Article 24", "Article 26", "Article 27", "Article 23"],
+                oHi: ["अनुच्छेद 24", "अनुच्छेद 26", "अनुच्छेद 27", "अनुच्छेद 23"],
+                a: 1,
+                sE: "Article 26 guarantees freedom to manage religious affairs to every religious denomination or any section thereof.",
+                sH: "अनुच्छेद 26 धार्मिक कार्यों के प्रबंध की स्वतंत्रता प्रत्येक धार्मिक संप्रदाय को प्रदान करता है।"
+            },
+            {
+                e: "According to the Constitution of India, the ‘Right to Freedom’ is specifically guaranteed under which exact set of Articles?",
+                h: "भारतीय संविधान के तहत 'स्वतंत्रता का अधिकार' किन अनुच्छेदों के तहत विशेष रूप से गारंटीकृत है?",
+                oEn: ["Articles 14, 15, 16 and 17", "Articles 23, 24, 25 and 26", "Articles 19, 20, 21 and 22", "Articles 32, 33, 34 and 35"],
+                oHi: ["अनुच्छेद 14, 15, 16 और 17", "अनुच्छेद 23, 24, 25 और 26", "अनुच्छेद 19, 20, 21 और 22", "अनुच्छेद 32, 33, 34 और 35"],
+                a: 2,
+                sE: "The Right to Freedom is grouped under Articles 19, 20, 21, 21A, and 22.",
+                sH: "स्वतंत्रता का अधिकार अनुच्छेद 19 से 22 के समूह में शामिल है।"
+            },
+            {
+                e: "The Preamble declares India to be a Secular State. What is the meaning of this?",
+                h: "प्रस्तावना भारत को एक धर्मनिरपेक्ष राज्य घोषित करती है। इसका क्या अर्थ है?",
+                oEn: ["State protects all religions equally", "Citizens must not practise any religion", "Religion is banned by the State", "State promotes majority religion"],
+                oHi: ["राज्य सभी धर्मों की समान रूप से रक्षा व सम्मान करता है", "नागरिकों को किसी धर्म का पालन नहीं करना चाहिए", "राज्य द्वारा धर्म प्रतिबंधित है", "राज्य बहुसंख्यक धर्म को बढ़ावा देता है"],
+                a: 0,
+                sE: "In India, secularism represents the positive concept where the state respects and protects all religions equally without having an official state religion.",
+                sH: "भारतीय धर्मनिरपेक्षता का अर्थ है कि राज्य का अपना कोई धर्म नहीं है और वह सभी धर्मों को समान संरक्षण व आदर देता है।"
+            },
+            {
+                e: "Which case for the first time held the Preamble to be an integral part of the Constitution?",
+                h: "किस ऐतिहासिक मामले में पहली बार प्रस्तावना को संविधान का अभिन्न अंग माना गया?",
+                oEn: ["Kesavananda Bharati Case, 1973", "Golaknath Case, 1967", "S.R. Bommai Case, 1994", "Berubari Case, 1960"],
+                oHi: ["केशवानंद भारती मामला, 1973", "गोलकनाथ मामला, 1967", "एस.आर. बोम्मई मामला, 1994", "बेरूबाड़ी मामला, 1960"],
+                a: 0,
+                sE: "In Kesavananda Bharati (1973), the Supreme Court reversed its earlier Berubari opinion and held that the Preamble is an integral part of the Constitution.",
+                sH: "केशवानंद भारती मामले (1973) में सुप्रीम कोर्ट ने माना कि प्रस्तावना संविधान का अभिन्न अंग है।"
+            },
+            {
+                e: "The ideals of “Social, Economic and Political Justice” in the Preamble are borrowed from which revolution?",
+                h: "प्रस्तावना में वर्णित \"सामाजिक, आर्थिक और राजनीतिक न्याय\" के आदर्श किस क्रांति से लिए गए हैं?",
+                oEn: ["French Revolution", "American Revolution", "Russian Revolution", "Glorious Revolution"],
+                oHi: ["फ्रांसीसी क्रांति", "अमेरिकी क्रांति", "रूसी क्रांति (1917)", "शानदार क्रांति (Glorious Revolution)"],
+                a: 2,
+                sE: "The ideals of justice (social, economic and political) were borrowed from the Russian Revolution (1917).",
+                sH: "सामाजिक, आर्थिक और राजनीतिक न्याय के आदर्श 1917 की रूसी क्रांति से प्रेरित हैं।"
+            },
+            {
+                e: "Which Article of the Constitution provides for the suspension of enforcement of the rights conferred by Part III during emergencies?",
+                h: "संविधान का कौन सा अनुच्छेद आपातकाल के दौरान भाग III द्वारा प्रदत्त अधिकारों के प्रवर्तन को निलंबित करने का प्रावधान करता है?",
+                oEn: ["Article 358", "Article 356", "Article 359", "Article 357"],
+                oHi: ["अनुच्छेद 358", "अनुच्छेद 356", "अनुच्छेद 359", "अनुच्छेद 357"],
+                a: 2,
+                sE: "Article 359 authorises the President to suspend by order the right to move any court for the enforcement of Fundamental Rights (except Articles 20 and 21) during a National Emergency.",
+                sH: "अनुच्छेद 359 राष्ट्रपति को आपातकाल के दौरान मौलिक अधिकारों (अनुच्छेद 20 और 21 को छोड़कर) के प्रवर्तन को निलंबित करने की शक्ति देता है।"
+            },
+            {
+                e: "The Preamble to the Constitution of India is primarily based on which resolution drafted and introduced by Jawaharlal Nehru?",
+                h: "भारत के संविधान की प्रस्तावना मुख्य रूप से जवाहरलाल नेहरू द्वारा पेश किए गए किस प्रस्ताव पर आधारित है?",
+                oEn: ["Objectives Resolution", "Fundamental Rights Resolution", "Directive Principles Resolution", "Fundamental Duties Resolution"],
+                oHi: ["उद्देश्य प्रस्ताव (Objectives Resolution)", "मौलिक अधिकार प्रस्ताव", "नीति निर्देशक सिद्धांत प्रस्ताव", "मौलिक कर्तव्य प्रस्ताव"],
+                a: 0,
+                sE: "The Preamble is based on the 'Objectives Resolution', introduced by Jawaharlal Nehru in the Constituent Assembly on December 13, 1946.",
+                sH: "प्रस्तावना 13 दिसंबर 1946 को पं. नेहरू द्वारा प्रस्तुत ऐतिहासिक 'उद्देश्य प्रस्ताव' पर आधारित है।"
+            },
+            {
+                e: "Which Constitutional Amendment introduced 10% reservation for Economically Weaker Sections (EWS) in education and jobs?",
+                h: "किस संविधान संशोधन ने शिक्षा और नौकरियों में आर्थिक रूप से कमजोर वर्गों (EWS) के लिए 10% आरक्षण की व्यवस्था की?",
+                oEn: ["103rd Amendment", "98th Amendment", "102nd Amendment", "104th Amendment"],
+                oHi: ["103वां संशोधन", "98वां संशोधन", "102वां संशोधन", "104वां संशोधन"],
+                a: 0,
+                sE: "The 103rd Constitutional Amendment Act, 2019 provided 10% reservation for EWS in civil posts and educational admissions.",
+                sH: "103वें संविधान संशोधन 2019 द्वारा ईडब्ल्यूएस (EWS) के लिए 10% आरक्षण का प्रावधान किया गया।"
+            },
+            {
+                e: "Which of the following features of the Constitution of India is NOT borrowed from the United Kingdom?",
+                h: "भारतीय संविधान की निम्नलिखित विशेषताओं में से कौन सी ब्रिटेन (UK) से नहीं ली गई है?",
+                oEn: ["Speaker of Lok Sabha", "Single citizenship", "Bicameral Parliament", "Appointment of state governors by the Centre"],
+                oHi: ["लोकसभा अध्यक्ष", "एकल नागरिकता", "द्विसदनीय संसद", "केंद्र द्वारा राज्यपालों की नियुक्ति"],
+                a: 3,
+                sE: "Appointment of State Governors by the Centre was borrowed from the Canadian Constitution, not the UK.",
+                sH: "केंद्र द्वारा राज्य के राज्यपालों की नियुक्ति का प्रावधान कनाडा के संविधान से लिया गया है, यूके से नहीं।"
+            },
+            {
+                e: "Which Constitutional Article was primarily referenced by the Supreme Court in the declaration of maternity leave being a constitutional right?",
+                h: "मातृत्व अवकाश को संवैधानिक अधिकार घोषित करने में सुप्रीम कोर्ट ने मुख्य रूप से किस अनुच्छेद का संदर्भ लिया?",
+                oEn: ["Article 27", "Article 19", "Article 21", "Article 14"],
+                oHi: ["अनुच्छेद 27", "अनुच्छेद 19", "अनुच्छेद 21", "अनुच्छेद 14"],
+                a: 2,
+                sE: "The Supreme Court recognized maternity benefits and reproductive rights as an intrinsic facet of the Right to Life and Personal Liberty with dignity under Article 21.",
+                sH: "सुप्रीम कोर्ट ने मातृत्व अधिकारों और सम्मानजनक जीवन को अनुच्छेद 21 (जीने का अधिकार) का अभिन्न हिस्सा माना है।"
+            },
+            {
+                e: "Which Article of the Constitution of India grants the “Right to Constitutional Remedies,” empowering individuals to move the Supreme Court directly?",
+                h: "भारतीय संविधान का कौन सा अनुच्छेद नागरिकों को मौलिक अधिकारों के लिए सीधे सुप्रीम कोर्ट जाने का संवैधानिक उपचार प्रदान करता है?",
+                oEn: ["Article 21", "Article 226", "Article 32", "Article 19"],
+                oHi: ["अनुच्छेद 21", "अनुच्छेद 226", "अनुच्छेद 32", "अनुच्छेद 19"],
+                a: 2,
+                sE: "Article 32 is known as the cornerstone of fundamental rights, termed by Dr. B.R. Ambedkar as the 'heart and soul of the Constitution'.",
+                sH: "अनुच्छेद 32 को डॉ. अम्बेडकर ने संविधान का 'हृदय और आत्मा' कहा था क्योंकि यह अधिकारों के प्रवर्तन की गारंटी देता है।"
+            },
+            {
+                e: "Which of the following is considered a unitary feature of the Constitution of India?",
+                h: "भारतीय संविधान की निम्नलिखित में से कौन सी एक एकात्मक (Unitary) विशेषता मानी जाती है?",
+                oEn: ["Supremacy of the Constitution", "Dual government", "Bicameral legislature", "Integrated judiciary"],
+                oHi: ["संविधान की सर्वोच्चता", "दोहरी सरकार", "द्विसदनीय विधायिका", "एकीकृत न्यायपालिका (Integrated judiciary)"],
+                a: 3,
+                sE: "An integrated single judiciary enforcing both Union and State laws is a prominent unitary feature of the Indian Constitution.",
+                sH: "एकीकृत न्यायपालिका भारत के एकात्मक ढांचे का लक्षण है, जबकि दोहरा शासन और द्विसदनीयता संघीय लक्षण हैं।"
+            },
+            {
+                e: "Which term in the Preamble indicates that India has an elected head of state, NOT a hereditary monarch?",
+                h: "प्रस्तावना का कौन सा शब्द इंगित करता है कि भारत का राष्ट्राध्यक्ष निर्वाचित होता है, वंशानुगत नहीं?",
+                oEn: ["Socialist", "Secular", "Sovereign", "Republic"],
+                oHi: ["समाजवादी", "धर्मनिरपेक्ष", "संप्रभु", "गणराज्य (Republic)"],
+                a: 3,
+                sE: "'Republic' indicates that the head of the state (the President) is elected directly or indirectly for a fixed tenure, rather than holding office hereditarily.",
+                sH: "'गणराज्य' का तात्पर्य है कि राज्य का प्रमुख वंशानुगत न होकर जनता द्वारा एक निश्चित अवधि के लिए निर्वाचित होता है।"
+            },
+            {
+                e: "Which of the following provisions requires ratification by not less than half the States for amendment under Article 368(2)?",
+                h: "अनुच्छेद 368(2) के तहत संशोधन के लिए कम से कम आधे राज्यों के विधानमंडलों के अनुसमर्थन की आवश्यकता किस प्रावधान में होती है?",
+                oEn: ["Provisions related to citizenship acquisition and termination", "Manner of election of the President of India", "Composition of the Council of Ministers", "Duration of the term of the Lok Sabha"],
+                oHi: ["नागरिकता अधिग्रहण और समाप्ति से संबंधित प्रावधान", "भारत के राष्ट्रपति के चुनाव का तरीका", "मंत्रिपरिषद की संरचना", "लोकसभा के कार्यकाल की अवधि"],
+                a: 1,
+                sE: "The manner of election of the President (Articles 54 & 55) is a federal feature and requires special majority plus ratification by half of the states.",
+                sH: "राष्ट्रपति के निर्वाचन की प्रक्रिया (अनुच्छेद 54 और 55) में संशोधन के लिए संसद के विशेष बहुमत के साथ-साथ आधे राज्यों की सहमति अनिवार्य है।"
+            },
+            {
+                e: "Article 22 provides constitutional safeguards to arrested or detained individuals under which two detention categories?",
+                h: "अनुच्छेद 22 हिरासत में लिए गए व्यक्तियों को किन दो श्रेणियों के तहत सुरक्षा प्रदान करता है?",
+                oEn: ["Temporary and permanent", "Judicial and executive", "Civil and military", "Punitive and preventive"],
+                oHi: ["अस्थायी और स्थायी", "न्यायिक और कार्यकारी", "नागरिक और सैन्य", "दंडात्मक और निवारक (Punitive and Preventive)"],
+                a: 3,
+                sE: "Article 22 deals with two types of detentions: punitive detention (punishment after trial) and preventive detention (precautionary detention without trial).",
+                sH: "अनुच्छेद 22 दंडात्मक (अपराध साबित होने पर) और निवारक (अपराध रोकने के लिए) दोनों प्रकार के निरोध से सुरक्षा देता है।"
+            },
+            {
+                e: "According to the Constitution of India, the ‘Right to Equality’ is guaranteed under which set of five consecutive Articles?",
+                h: "भारतीय संविधान के अनुसार 'समानता का अधिकार' किन पांच लगातार अनुच्छेदों के तहत गारंटीकृत है?",
+                oEn: ["Articles 12, 13, 14, 15 and 16", "Articles 23, 24, 25, 26 and 27", "Articles 19, 20, 21, 22 and 23", "Articles 14, 15, 16, 17 and 18"],
+                oHi: ["अनुच्छेद 12 से 16", "अनुच्छेद 23 से 27", "अनुच्छेद 19 से 23", "अनुच्छेद 14, 15, 16, 17 और 18"],
+                a: 3,
+                sE: "The Right to Equality is encapsulated under Articles 14 to 18.",
+                sH: "समानता का अधिकार अनुच्छेद 14 से 18 तक के पांच अनुच्छेदों में वर्णित है।"
+            },
+            {
+                e: "Which landmark case recognized judicial review as part of the 'basic structure' of the Constitution?",
+                h: "किस ऐतिहासिक मामले में न्यायिक समीक्षा को संविधान के 'मूल ढांचे' का हिस्सा माना गया था?",
+                oEn: ["Minerva Mills case", "Indra Sawhney case", "Maneka Gandhi case", "Kesavananda Bharati case"],
+                oHi: ["मिनर्वा मिल्स मामला", "इंद्रा साहनी मामला", "मेनका गांधी मामला", "केशवानंद भारती मामला (1973)"],
+                a: 3,
+                sE: "In Kesavananda Bharati (1973), the Supreme Court established the Basic Structure Doctrine and held judicial review to be a basic feature.",
+                sH: "केशवानंद भारती मामले (1973) में बुनियादी ढांचे का सिद्धांत दिया गया और न्यायिक समीक्षा को मूल संरचना घोषित किया गया।"
+            },
+            {
+                e: "Which Amendment Act restored the Right to Property as a legal right under Article 300A?",
+                h: "किस संशोधन अधिनियम ने संपत्ति के अधिकार को अनुच्छेद 300A के तहत कानूनी अधिकार के रूप में पुनः स्थापित किया?",
+                oEn: ["44th Amendment", "42nd Amendment", "46th Amendment", "48th Amendment"],
+                oHi: ["44वां संशोधन", "42वां संशोधन", "46वां संशोधन", "48वां संशोधन"],
+                a: 0,
+                sE: "The 44th Constitutional Amendment Act, 1978 introduced Article 300A, making the right to property a constitutional/legal right.",
+                sH: "44वें संशोधन अधिनियम 1978 ने संपत्ति के अधिकार को कानूनी अधिकार (अनुच्छेद 300A) बनाया।"
+            },
+            {
+                e: "What was the Untouchability (Offences) Act, 1955 renamed as in 1976?",
+                h: "अस्पृश्यता (अपराध) अधिनियम, 1955 का नाम बदलकर 1976 में क्या रखा गया था?",
+                oEn: ["Civil Rights Enforcement Act", "Social Justice Act", "Fundamental Rights Protection Act", "Protection of Civil Rights Act, 1955"],
+                oHi: ["नागरिक अधिकार प्रवर्तन अधिनियम", "सामाजिक न्याय अधिनियम", "मौलिक अधिकार संरक्षण अधिनियम", "नागरिक अधिकार संरक्षण अधिनियम, 1955 (Protection of Civil Rights Act)"],
+                a: 3,
+                sE: "The Untouchability (Offences) Act, 1955 was comprehensively amended and renamed as the 'Protection of Civil Rights Act, 1955' in 1976.",
+                sH: "1976 में अस्पृश्यता (अपराध) अधिनियम 1955 का नाम बदलकर 'नागरिक अधिकार संरक्षण अधिनियम, 1955' कर दिया गया।"
+            },
+            {
+                e: "“Equality before law” and “equal protection of the laws” are guaranteed under which Article?",
+                h: "\"विधि के समक्ष समता\" और \"विधियों का समान संरक्षण\" किस अनुच्छेद के तहत प्रदान किए गए हैं?",
+                oEn: ["Article 14", "Article 15", "Article 13", "Article 16"],
+                oHi: ["अनुच्छेद 14", "अनुच्छेद 15", "अनुच्छेद 13", "अनुच्छेद 16"],
+                a: 0,
+                sE: "Article 14 states that the State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.",
+                sH: "अनुच्छेद 14 विधि के समक्ष समता (ब्रिटेन से) तथा विधियों के समान संरक्षण (अमेरिका से) की गारंटी देता है।"
+            },
+            {
+                e: "Which Part of the Indian Constitution deals specifically with the Union Executive structure?",
+                h: "भारतीय संविधान का कौन सा भाग विशेष रूप से संघ की कार्यपालिका संरचना से संबंधित है?",
+                oEn: ["Part VI", "Part V", "Part IV", "Part III"],
+                oHi: ["भाग VI", "भाग V", "भाग IV", "भाग III"],
+                a: 1,
+                sE: "Part V of the Constitution (Articles 52 to 151) covers the Union, and Chapter I deals with the Union Executive (Articles 52 to 78).",
+                sH: "संविधान का भाग V (अनुच्छेद 52 से 151) संघ से संबंधित है, जिसका अध्याय 1 कार्यपालिका का वर्णन करता है।"
+            },
+            {
+                e: "By which Amendment Act were the words ‘socialist’, ‘secular’, and ‘integrity’ added to the Preamble?",
+                h: "संविधान की प्रस्तावना में 'समाजवादी', 'धर्मनिरपेक्ष' और 'अखंडता' शब्द किस संशोधन अधिनियम द्वारा जोड़े गए थे?",
+                oEn: ["42nd Amendment Act", "52nd Amendment Act", "32nd Amendment Act", "62nd Amendment Act"],
+                oHi: ["42वां संशोधन अधिनियम (1976)", "52वां संशोधन अधिनियम", "32वां संशोधन अधिनियम", "62वां संशोधन अधिनियम"],
+                a: 0,
+                sE: "The 42nd Constitutional Amendment Act of 1976 amended the Preamble to insert three new words: Socialist, Secular, and Integrity.",
+                sH: "42वें संविधान संशोधन 1976 द्वारा प्रस्तावना में 'समाजवादी', 'पंथनिरपेक्ष' और 'अखंडता' शब्द जोड़े गए।"
+            },
+            {
+                e: "The Right to Property was removed from Part III of the Indian Constitution and added to which Part?",
+                h: "संपत्ति के अधिकार को संविधान के भाग III से हटाकर किस भाग में जोड़ा गया था?",
+                oEn: ["Part XII", "Part X", "Part XIII", "Part XI"],
+                oHi: ["भाग XII", "भाग X", "भाग XIII", "भाग XI"],
+                a: 0,
+                sE: "The Right to Property was placed in Part XII of the Constitution under Article 300A.",
+                sH: "संपत्ति के अधिकार को भाग XII के अंतर्गत अनुच्छेद 300A में शामिल किया गया।"
+            },
+            {
+                e: "Right to free and compulsory education for children aged 6–14 years is provided under which Article?",
+                h: "6 से 14 वर्ष की आयु के बच्चों के लिए मुफ्त और अनिवार्य शिक्षा का अधिकार किस अनुच्छेद के तहत प्रदान किया गया है?",
+                oEn: ["Article 51A(k)", "Article 45", "Article 19", "Article 21A"],
+                oHi: ["अनुच्छेद 51A(k)", "अनुच्छेद 45", "अनुच्छेद 19", "अनुच्छेद 21A"],
+                a: 3,
+                sE: "Article 21A was inserted by the 86th Constitutional Amendment Act, 2002 to make elementary education a Fundamental Right.",
+                sH: "86वें संशोधन 2002 द्वारा अनुच्छेद 21A जोड़कर प्राथमिक शिक्षा को मौलिक अधिकार बनाया गया।"
+            },
+            {
+                e: "The 24th Constitutional Amendment Act (1971) affirmed which power of Parliament?",
+                h: "24वें संविधान संशोधन अधिनियम (1971) ने संसद की किस शक्ति की पुष्टि की?",
+                oEn: ["Amend Fundamental Rights", "Suspend the High Court judgment", "Override judicial review", "Suspend elections"],
+                oHi: ["मौलिक अधिकारों में संशोधन करने की शक्ति", "उच्च न्यायालय के फैसले को निलंबित करना", "न्यायिक समीक्षा को रद्द करना", "चुनाव स्थगित करना"],
+                a: 0,
+                sE: "The 24th Amendment amended Articles 13 and 368 to clarify that Parliament has the power to amend any part of the Constitution, including Fundamental Rights.",
+                sH: "24वें संशोधन ने स्पष्ट किया कि संसद अनुच्छेद 368 के तहत मौलिक अधिकारों सहित संविधान के किसी भी भाग में संशोधन कर सकती है।"
+            },
+            {
+                e: "Providing free legal aid under Article 39A indirectly promotes which core Preamble objective?",
+                h: "अनुच्छेद 39A के तहत मुफ्त कानूनी सहायता प्रदान करना प्रस्तावना के किस उद्देश्य को बढ़ावा देता है?",
+                oEn: ["Sovereignty", "Republic", "Secularism", "Justice"],
+                oHi: ["संप्रभुता", "गणराज्य", "धर्मनिरपेक्षता", "न्याय (Justice)"],
+                a: 3,
+                sE: "Article 39A ensures equal access to justice for economically disadvantaged citizens, fulfilling the Preamble's promise of Justice.",
+                sH: "अनुच्छेद 39A गरीबों को मुफ्त कानूनी सहायता देकर प्रस्तावना में उल्लिखित 'सामाजिक, आर्थिक और राजनीतिक न्याय' को साकार करता है।"
+            },
+            {
+                e: "Which provisions were inserted into the Constitution by the 103rd Amendment Act, 2019 to enable EWS reservation?",
+                h: "103वें संशोधन अधिनियम 2019 द्वारा ईडब्ल्यूएस आरक्षण को सक्षम करने के लिए संविधान में कौन से खंड जोड़े गए?",
+                oEn: ["Articles 15(5) and 16(5)", "Articles 15(4) and 16(4)", "Articles 15(6) and 16(6)", "Articles 15(2) and 16(2)"],
+                oHi: ["अनुच्छेद 15(5) और 16(5)", "अनुच्छेद 15(4) और 16(4)", "अनुच्छेद 15(6) और 16(6)", "अनुच्छेद 15(2) और 16(2)"],
+                a: 2,
+                sE: "The 103rd Amendment Act, 2019 inserted Article 15(6) and Article 16(6) to permit reservation for economically weaker sections.",
+                sH: "103वें संशोधन ने अनुच्छेद 15(6) और 16(6) जोड़कर आर्थिक रूप से कमजोर वर्गों के लिए आरक्षण की व्यवस्था की।"
+            },
+            {
+                e: "What does the term 'Sovereign' in the Indian Constitution's Preamble signify?",
+                h: "भारतीय संविधान की प्रस्तावना में 'संप्रभु' (Sovereign) शब्द का क्या अर्थ है?",
+                oEn: ["Policy of non-alignment", "Power to appoint President", "Religious freedom for all citizens", "Independence from external control"],
+                oHi: ["गुटनिरपेक्षता की नीति", "राष्ट्रपति नियुक्त करने की शक्ति", "सभी नागरिकों के लिए धार्मिक स्वतंत्रता", "बाहरी नियंत्रण से पूर्ण स्वतंत्रता"],
+                a: 3,
+                sE: "'Sovereign' means India is completely independent and not subject to the control of any external power or foreign authority.",
+                sH: "'संप्रभु' का अर्थ है कि भारत अपने आंतरिक और बाह्य मामलों में निर्णय लेने के लिए पूरी तरह स्वतंत्र है और किसी विदेशी शक्ति के अधीन नहीं है।"
+            },
+            {
+                e: "Which of the following subjects are included in the Union List under the Seventh Schedule?",
+                h: "सातवीं अनुसूची के तहत संघ सूची (Union List) में कौन से विषय शामिल हैं?",
+                oEn: ["Police, public health, and agriculture", "Education, forests, and marriage", "Local government, markets, and fairs", "Defence, foreign affairs, and citizenship"],
+                oHi: ["पुलिस, लोक स्वास्थ्य और कृषि", "शिक्षा, वन और विवाह", "स्थानीय शासन, बाजार और मेले", "रक्षा, विदेश मामले और नागरिकता"],
+                a: 3,
+                sE: "Defence, foreign affairs, atomic energy, and citizenship fall under the exclusive legislative domain of the Union List.",
+                sH: "रक्षा, विदेशी मामले, युद्ध और नागरिकता जैसे राष्ट्रीय महत्व के विषय संघ सूची में आते हैं।"
+            },
+            {
+                e: "Under which Article does the Supreme Court have the constitutional power to issue writs for fundamental rights?",
+                h: "सुप्रीम कोर्ट को मौलिक अधिकारों के लिए रिट जारी करने की शक्ति किस अनुच्छेद के तहत प्राप्त है?",
+                oEn: ["Article 30", "Article 124", "Article 32", "Article 72"],
+                oHi: ["अनुच्छेद 30", "अनुच्छेद 124", "अनुच्छेद 32", "अनुच्छेद 72"],
+                a: 2,
+                sE: "Article 32 empowers the Supreme Court to issue writs in the nature of Habeas Corpus, Mandamus, Prohibition, Quo Warranto, and Certiorari.",
+                sH: "अनुच्छेद 32 के तहत सुप्रीम कोर्ट को पांच प्रकार की रिट जारी करने का अधिकार है।"
+            },
+            {
+                e: "Which Article authorises Parliament to restrict or abrogate the applicability of Fundamental Rights for members of the Armed Forces?",
+                h: "कौन सा अनुच्छेद संसद को सशस्त्र बलों के सदस्यों के लिए मौलिक अधिकारों की प्रयोज्यता को प्रतिबंधित करने का अधिकार देता है?",
+                oEn: ["Article 33", "Article 35", "Article 45", "Article 42"],
+                oHi: ["अनुच्छेद 33", "अनुच्छेद 35", "अनुच्छेद 45", "अनुच्छेद 42"],
+                a: 0,
+                sE: "Article 33 empowers Parliament to modify the application of Fundamental Rights to the armed forces, paramilitary, police, and intelligence agencies.",
+                sH: "अनुच्छेद 33 संसद को यह अधिकार देता है कि वह सशस्त्र बलों और पुलिस के मौलिक अधिकारों को सीमित कर सके ताकि अनुशासन बना रहे।"
+            },
+            {
+                e: "The Preamble to the Constitution of India primarily serves as which of the following?",
+                h: "भारतीय संविधान की प्रस्तावना मुख्य रूप से किस रूप में कार्य करती है?",
+                oEn: ["A schedule to the Constitution", "A guiding principle for judicial interpretation", "A financial guideline", "An enforceable part of law by itself"],
+                oHi: ["संविधान की एक अनुसूची", "संवैधानिक व्याख्या के लिए मार्गदर्शक सिद्धांत", "एक वित्तीय दिशानिर्देश", "अपने आप में सीधे कानूनी रूप से लागू होने वाला भाग"],
+                a: 1,
+                sE: "The Preamble serves as a key interpretive guide that illuminates the intention of the framers when constitutional provisions are ambiguous.",
+                sH: "प्रस्तावना संविधान निर्माताओं के विचारों को जानने की कुंजी है और अस्पष्ट संवैधानिक प्रावधानों की व्याख्या में मार्गदर्शक का कार्य करती है।"
+            },
+            {
+                e: "Which Article authorizes the State to make special provisions for the welfare of women and children?",
+                h: "कौन सा अनुच्छेद राज्य को महिलाओं और बच्चों के कल्याण के लिए विशेष प्रावधान करने का अधिकार देता है?",
+                oEn: ["Article 19(5)", "Article 23(2)", "Article 15(3)", "Article 16(2)"],
+                oHi: ["अनुच्छेद 19(5)", "अनुच्छेद 23(2)", "अनुच्छेद 15(3)", "अनुच्छेद 16(2)"],
+                a: 2,
+                sE: "Article 15(3) allows the State to make special affirmative provisions for women and children as an exception to non-discrimination.",
+                sH: "अनुच्छेद 15(3) राज्य को महिलाओं और बच्चों के पक्ष में विशेष प्रावधान बनाने की अनुमति देता है।"
+            },
+            {
+                e: "Article 25 of the Indian Constitution primarily guarantees which of the following rights?",
+                h: "संविधान का अनुच्छेद 25 मुख्य रूप से किस अधिकार की गारंटी देता है?",
+                oEn: ["Freedom of conscience, profession, practice and propagation of religion", "Cultural and educational rights", "Right to constitutional remedies", "Right to equality before law"],
+                oHi: ["धर्म को मानने, आचरण और प्रचार करने की स्वतंत्रता", "सांस्कृतिक और शैक्षिक अधिकार", "संवैधानिक उपचार का अधिकार", "विधि के समक्ष समानता का अधिकार"],
+                a: 0,
+                sE: "Article 25 guarantees freedom of conscience and free profession, practice and propagation of religion.",
+                sH: "अनुच्छेद 25 अंतःकरण की स्वतंत्रता और धर्म को अबाध रूप से मानने, आचरण करने और प्रचार करने की स्वतंत्रता देता है।"
+            },
+            {
+                e: "The power to issue writs for the enforcement of Fundamental Rights is vested in:",
+                h: "मौलिक अधिकारों के प्रवर्तन के लिए रिट जारी करने की शक्ति किसमें निहित है?",
+                oEn: ["Supreme Court and High Courts", "Lok Adalat and High Courts", "District Court and High Courts", "Session court and High Courts"],
+                oHi: ["सर्वोच्च न्यायालय और उच्च न्यायालय", "लोक अदालत और उच्च न्यायालय", "जिला अदालत और उच्च न्यायालय", "सत्र अदालत और उच्च न्यायालय"],
+                a: 0,
+                sE: "Under Article 32 (Supreme Court) and Article 226 (High Courts), writ jurisdiction is shared by both higher judicial bodies.",
+                sH: "अनुच्छेद 32 के तहत उच्चतम न्यायालय और अनुच्छेद 226 के तहत उच्च न्यायालय दोनों को रिट जारी करने का अधिकार है।"
+            },
+            {
+                e: "Consider the following statements:\n1. Article 13 provides for judicial review of both pre-constitutional and post-constitutional laws.\n2. Article 13 declares that all laws inconsistent with Fundamental Rights shall be void.\nWhich is/are correct?",
+                h: "निम्नलिखित कथनों पर विचार करें:\n1. अनुच्छेद 13 संविधान-पूर्व और संविधान-पश्चात दोनों कानूनों की न्यायिक समीक्षा प्रदान करता है।\n2. अनुच्छेद 13 घोषित करता है कि मौलिक अधिकारों से असंगत सभी कानून शून्य होंगे।\nकौन सा/से सही है/हैं?",
+                oEn: ["Neither 1 nor 2", "2 only", "1 only", "Both 1 and 2"],
+                oHi: ["न तो 1 और न ही 2", "केवल 2", "केवल 1", "1 और 2 दोनों"],
+                a: 3,
+                sE: "Article 13(1) covers pre-constitutional laws, and Article 13(2) covers post-constitutional laws; both are declared void to the extent of inconsistency.",
+                sH: "अनुच्छेद 13(1) संविधान-पूर्व विधियों और 13(2) संविधान-पश्चात विधियों को असंगति की मात्रा तक शून्य ठहराता है।"
+            },
+            {
+                e: "Article 23 of the Constitution specifically prohibits which practice?",
+                h: "संविधान का अनुच्छेद 23 विशेष रूप से किस प्रथा को प्रतिबंधित करता है?",
+                oEn: ["Compulsory service in the armed forces", "Conferring of titles", "Child employment in hazardous industries", "Traffic in human beings and forced labour"],
+                oHi: ["सशस्त्र बलों में अनिवार्य सेवा", "उपाधियां प्रदान करना", "खतरनाक उद्योगों में बाल रोजगार", "मानव तस्करी और बलात् श्रम (बेगार)"],
+                a: 3,
+                sE: "Article 23 explicitly prohibits traffic in human beings, begar, and other similar forms of forced labour.",
+                sH: "अनुच्छेद 23 मानव दुर्व्यापार, बेगार और बलात् श्रम का प्रतिषेध करता है।"
+            }
+        ];
+
+        const state = {
+            current: 0,
+            answers: new Array(QUESTIONS.length).fill(null),
+            locked: new Array(QUESTIONS.length).fill(false),
+            mode: 'test',
+            lang: 'en',
+            startTime: null,
+            timerInterval: null,
+            elapsed: 0
+        };
+
+        function $(id) { return document.getElementById(id); }
+
+        function toast(msg) {
+            const t = $('toast');
+            $('toastText').textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+        }
+
+        function formatTime(s) {
+            const m = Math.floor(s / 60);
+            return String(m).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+        }
+
+        function startApp(mode) {
+            state.mode = mode;
+            $('startScreen').classList.add('hidden');
+            $('quizApp').classList.remove('hidden');
+            state.startTime = Date.now();
+            state.timerInterval = setInterval(() => {
+                state.elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+                $('timerText').textContent = formatTime(state.elapsed);
+            }, 1000);
+            renderQuestion();
+            buildPalette();
+        }
+
+        function toggleLang() {
+            state.lang = state.lang === 'en' ? 'hi' : 'en';
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const i = state.current;
+            const q = QUESTIONS[i];
+            const isQuiz = state.mode === 'quiz';
+            const locked = state.locked[i];
+            const userAns = state.answers[i];
+            const qTxt = state.lang === 'en' ? q.e : q.h;
+            const opts = state.lang === 'en' ? q.oEn : q.oHi;
+
+            let optsHtml = '';
+            opts.forEach((opt, idx) => {
+                let cls = '', tag = '';
+                if (isQuiz && locked) {
+                    if (idx === q.a) {
+                        cls = 'correct';
+                        tag = '<span class="opt-tag">Correct</span>';
+                    }
+                    if (userAns === idx && idx !== q.a) {
+                        cls = 'wrong';
+                        tag = '<span class="opt-tag">Your Ans</span>';
+                    }
+                } else if (userAns === idx) {
+                    cls = 'selected';
+                }
+                optsHtml += `
+                    <div class="opt ${cls} ${locked ? 'locked' : ''}" onclick="selectOption(${idx})">
+                        <div class="opt-letter">${String.fromCharCode(65 + idx)}</div>
+                        <div class="opt-text">${opt}</div>
+                        ${tag}
+                    </div>
+                `;
+            });
+
+            const solTxt = state.lang === 'en' ? q.sE : q.sH;
+            let solHtml = (isQuiz && locked) ? `
+                <div class="sol-box">
+                    <div class="sol-head"><i class="fas fa-lightbulb"></i> Explanation</div>
+                    <div style="white-space: pre-line;">${solTxt}</div>
+                </div>
+            ` : '';
+
+            $('quizMain').innerHTML = `
+                <div class="q-card">
+                    <div class="q-top">
+                        <div class="q-num-badge">Question ${i + 1} of ${QUESTIONS.length}</div>
+                        <button class="lang-btn" onclick="toggleLang()">
+                            <i class="fas fa-language"></i> ${state.lang === 'en' ? 'Switch to हिन्दी' : 'Switch to English'}
+                        </button>
+                    </div>
+                    <div class="q-text">${qTxt}</div>
+                    <div class="opts">${optsHtml}</div>
+                    ${solHtml}
+                </div>
+            `;
+
+            $('prevBtn').disabled = i === 0;
+            $('nextLabel').textContent = i === QUESTIONS.length - 1 ? 'Finish' : 'Next';
+            updatePaletteGrid();
+        }
+
+        function selectOption(idx) {
+            if (state.mode === 'quiz' && state.locked[state.current]) return;
+            state.answers[state.current] = idx;
+            if (state.mode === 'quiz') {
+                state.locked[state.current] = true;
+                if (idx === QUESTIONS[state.current].a) {
+                    toast('Correct! 🎉');
+                } else {
+                    toast('Incorrect');
+                }
+            }
+            renderQuestion();
+        }
+
+        function prevQuestion() {
+            if (state.current > 0) {
+                state.current--;
+                renderQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (state.current < QUESTIONS.length - 1) {
+                state.current++;
+                renderQuestion();
+            } else {
+                openSubmitModal();
+            }
+        }
+
+        function buildPalette() {
+            const grid = $('paletteGrid');
+            grid.innerHTML = '';
+            QUESTIONS.forEach((_, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'pal-btn';
+                btn.id = 'pal-' + i;
+                btn.textContent = i + 1;
+                btn.onclick = () => {
+                    state.current = i;
+                    closePalette();
+                    renderQuestion();
+                };
+                grid.appendChild(btn);
+            });
+            updatePaletteGrid();
+        }
+
+        function updatePaletteGrid() {
+            QUESTIONS.forEach((_, i) => {
+                const btn = $('pal-' + i);
+                if (!btn) return;
+                btn.className = 'pal-btn';
+                if (i === state.current) btn.classList.add('current');
+                if (state.answers[i] !== null) btn.classList.add('answered');
+            });
+        }
+
+        function openPalette() {
+            $('paletteDrawer').classList.add('open');
+            $('paletteOverlay').classList.add('open');
+        }
+
+        function closePalette() {
+            $('paletteDrawer').classList.remove('open');
+            $('paletteOverlay').classList.remove('open');
+        }
+
+        function openSubmitModal() {
+            const ans = state.answers.filter(a => a !== null).length;
+            $('modalAttempted').textContent = ans;
+            $('modalUnattempted').textContent = QUESTIONS.length - ans;
+            $('submitModal').classList.add('open');
+        }
+
+        function closeSubmitModal() {
+            $('submitModal').classList.remove('open');
+        }
+
+        function confirmSubmit() {
+            closeSubmitModal();
+            if (state.timerInterval) clearInterval(state.timerInterval);
+            let correct = 0, wrong = 0;
+            state.answers.forEach((ans, i) => {
+                if (ans !== null) {
+                    if (ans === QUESTIONS[i].a) correct++;
+                    else wrong++;
+                }
+            });
+            $('resultsInner').innerHTML = `
+                <h2>Test Completed!</h2>
+                <p style="color:var(--text-muted);margin:8px 0;">Total Time: ${formatTime(state.elapsed)}</p>
+                <div class="res-score-card">
+                    <div class="res-score-val">${correct} / ${QUESTIONS.length}</div>
+                    <div>Score</div>
+                </div>
+                <div class="res-grid">
+                    <div class="res-item"><div class="res-item-val" style="color:var(--green)">${correct}</div><div>Correct</div></div>
+                    <div class="res-item"><div class="res-item-val" style="color:var(--red)">${wrong}</div><div>Wrong</div></div>
+                </div>
+                <button class="modal-btn confirm" onclick="location.reload()">Re-attempt</button>
+            `;
+            $('resultsScreen').classList.add('open');
+        }
+    </script>
+</body>
+</html>
